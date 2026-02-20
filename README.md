@@ -1,12 +1,131 @@
-# React + Vite
+# Prerequisites
+- Node.js
+- npm (automatically with node)
+- Google account
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Check versions:
 
-Currently, two official plugins are available:
+```bash
+node -v
+npm -v
+```
+### Step 1: Create a React app 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm create vite@latest my-app
+```
+- Select Framework: React
+- Variant: JavaScript (For now)
 
-## Expanding the ESLint configuration
+Then
+```bash
+cd my-app
+npm install
+```
+### Step 2: Install Tailwind CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Install dependencies
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+This will create two files:
+- tailwind.config.js
+- postcss.config.js
+
+### Step 3: Configure Tailwind
+
+- update the tailwind.config.js
+```
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+- Replace index.css with: 
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### Step 4: Run the app
+
+``` npm run dev ```
+
+## Setting up firebse console
+
+### Step 1: Create Firebase Project
+
+- Go to: https://console.firebase.google.com/
+- Create a new firebase project
+- Enter project name
+- Click create
+
+### Step 2: Enable Google Authentication
+- Go to Authentication under Build
+- Click Get Started
+- Select google 
+- Enable it and select support email
+- Click Save
+
+### Step 3: Register Web App
+- Go to Project Settings
+- Scroll down to your apps
+- Select Web app
+- Name the Web app
+- Click register
+
+``` 
+const firebaseConfig = {
+  apiKey: "your-api-key",
+  authDomain: "your-auth-domain.com",
+  projectId: "your-project_id-a2469",
+  storageBucket: "your-project_id-a2469.firebasestorage.app",
+  messagingSenderId: "your-messaging-Sending-id",
+  appId: "your-app-id"
+};
+```
+### Step 4: Install Firebase in React
+
+```npm install firebase```
+### Step 5: Setup Firebase Config file
+``` src/firebase.js```
+```
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+```
+### Step 6: Use Environment Variables (MUST)
+```.env```
+```
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+
